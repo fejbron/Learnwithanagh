@@ -50,12 +50,23 @@ node -e "console.log(require('crypto').randomBytes(32).toString('base64'))"
 
 ### NEXTAUTH_URL and AUTH_URL
 
-1. **First deployment**: Use placeholder `https://your-app-name.vercel.app`
-2. **After first deploy**: 
-   - Go to Vercel Dashboard > Your Project
-   - Copy the deployment URL (e.g., `https://learn-with-ana-gh.vercel.app`)
-   - Update both `NEXTAUTH_URL` and `AUTH_URL` with this exact URL
-   - **Important**: No trailing slash!
+**CRITICAL**: These must be set correctly or you'll get "Invalid URL" errors!
+
+1. **Get your Vercel URL**:
+   - After first deployment, go to Vercel Dashboard > Your Project
+   - Copy the deployment URL (e.g., `https://learnwithanagh-cb5kk3ru3-edbrons-projects.vercel.app`)
+   - Or use your custom domain if configured
+
+2. **Set in Vercel**:
+   - **Key**: `NEXTAUTH_URL`
+   - **Value**: `https://your-actual-vercel-url.vercel.app` (your actual URL)
+   - **Key**: `AUTH_URL`
+   - **Value**: Same as NEXTAUTH_URL
+   - **Important**: 
+     - ✅ Must start with `https://`
+     - ✅ Must be full URL (not just domain)
+     - ✅ No trailing slash
+     - ✅ Must match your actual deployment URL exactly
 
 ## Optional: Supabase Client-Side Variables
 

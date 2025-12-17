@@ -8,6 +8,37 @@ if (!process.env.NEXTAUTH_SECRET) {
   console.warn('⚠️  NEXTAUTH_SECRET is not set. Authentication may not work properly.');
 }
 
+// Validate and get NEXTAUTH_URL
+function getNextAuthUrl(): string {
+  const url = process.env.NEXTAUTH_URL || process.env.AUTH_URL;
+  
+  if (!url) {
+    // In production, this should be set, but we'll try to construct it
+    if (process.env.VERCEL_URL) {
+      return `https://${process.env.VERCEL_URL}`;
+    }
+    if (process.env.VERCEL) {
+      // Vercel provides VERCEL_URL automatically
+      return `https://${process.env.VERCEL_URL || 'localhost:3000'}`;
+    }
+    // Fallback for development
+    return process.env.NODE_ENV === 'production' 
+      ? 'https://localhost:3000' // This will fail, but at least we'll get a clear error
+      : 'http://localhost:3000';
+  }
+  
+  // Validate URL format
+  try {
+    new URL(url);
+    return url;
+  } catch (e) {
+    console.error('Invalid NEXTAUTH_URL:', url);
+    throw new Error(`NEXTAUTH_URL is invalid: ${url}. Must be a valid absolute URL (e.g., https://your-app.vercel.app)`);
+  }
+}
+
+const nextAuthUrl = getNextAuthUrl();
+
 export const { handlers, auth, signIn, signOut } = NextAuth({
   secret: process.env.NEXTAUTH_SECRET || 'fallback-secret-change-in-production',
   trustHost: true,
