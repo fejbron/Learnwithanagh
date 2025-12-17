@@ -20,7 +20,7 @@ Use this checklist before deploying to Vercel to ensure everything is ready.
 
 ### Database
 - [ ] Production database created and accessible
-- [ ] Database migrations ready (`prisma/migrations/`)
+- [ ] Database schema setup script ready (`scripts/setup-supabase-schema.ts`)
 - [ ] Connection string obtained
 - [ ] SSL enabled for database connection
 
@@ -70,7 +70,7 @@ In Vercel Dashboard > Settings > Environment Variables, add:
 - [ ] Redeploy to apply changes
 
 #### Database Setup
-- [ ] Run migrations: `npx prisma migrate deploy` (pointing to production DB)
+- [ ] Set up schema: `npm run supabase:setup` (pointing to production DB)
 - [ ] Seed database: `npm run db:seed` (if needed)
 
 #### Testing

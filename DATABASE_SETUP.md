@@ -1,8 +1,41 @@
-# PostgreSQL Database Setup
+# Supabase Database Setup
 
 ## Quick Setup Guide
 
-### Option 1: Local PostgreSQL
+### Recommended: Supabase (Cloud PostgreSQL)
+
+1. **Create Supabase Project**:
+   - Go to [supabase.com](https://supabase.com)
+   - Sign up/login and create a new project
+   - Wait for the project to be provisioned
+
+2. **Get Connection String**:
+   - Go to Supabase Dashboard > Settings > Database
+   - Find "Connection string" section
+   - Select "URI" mode
+   - Copy the connection string (it includes your password)
+
+3. **Update .env file**:
+   ```env
+   DATABASE_URL="postgresql://postgres:[YOUR-PASSWORD]@[YOUR-HOST]:5432/postgres?sslmode=require"
+   # OR use the Supabase-specific variable:
+   SUPABASE_DATABASE_URL="postgresql://postgres:[YOUR-PASSWORD]@[YOUR-HOST]:5432/postgres?sslmode=require"
+   ```
+   Replace `[YOUR-PASSWORD]` and `[YOUR-HOST]` with values from Supabase.
+
+4. **Set Up Database Schema**:
+   ```bash
+   npm run supabase:setup
+   ```
+   This will create all necessary tables in your Supabase database.
+
+5. **Seed Database**:
+   ```bash
+   npm run db:seed
+   ```
+   This creates the default admin user.
+
+### Alternative: Local PostgreSQL
 
 1. **Install PostgreSQL** (if not already installed):
    - macOS: `brew install postgresql@14` or download from [postgresql.org](https://www.postgresql.org/download/)
@@ -15,38 +48,12 @@
 
 3. **Update .env file**:
    ```env
-   DATABASE_URL="postgresql://your_username@localhost:5432/learnwithanagh?schema=public"
-   ```
-   
-   If your PostgreSQL requires a password:
-   ```env
    DATABASE_URL="postgresql://your_username:your_password@localhost:5432/learnwithanagh?schema=public"
    ```
 
-4. **Run Migrations**:
-   ```bash
-   npx prisma migrate dev
-   ```
+4. **Set Up Schema** (run SQL from `scripts/setup-supabase-schema.ts` manually)
 
 5. **Seed Database**:
-   ```bash
-   npm run db:seed
-   ```
-
-### Option 2: Remote PostgreSQL (e.g., Supabase, Railway, Neon)
-
-1. **Get Connection String** from your PostgreSQL provider
-2. **Update .env file**:
-   ```env
-   DATABASE_URL="your_provider_connection_string"
-   ```
-
-3. **Run Migrations**:
-   ```bash
-   npx prisma migrate dev
-   ```
-
-4. **Seed Database**:
    ```bash
    npm run db:seed
    ```

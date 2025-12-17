@@ -19,9 +19,8 @@ The following optimizations have been applied for production:
 - ✅ Query performance monitoring
 
 ### 3. Build Configuration
-- ✅ Prisma client auto-generation on install
-- ✅ Production build script
-- ✅ Database migration script
+- ✅ Production build script optimized
+- ✅ Database setup scripts ready
 
 ---
 
@@ -32,9 +31,6 @@ The following optimizations have been applied for production:
 ```bash
 # Install dependencies
 npm install
-
-# Generate Prisma client
-npx prisma generate
 
 # Build for production
 npm run build
@@ -61,7 +57,7 @@ Vercel will automatically build your app when you deploy:
    - Click "Deploy"
 
 Vercel will automatically:
-- Run `npm install` (which triggers `postinstall` → `prisma generate`)
+- Run `npm install`
 - Run `npm run build`
 - Deploy to production
 
@@ -77,10 +73,10 @@ Before deploying to Vercel, ensure:
   - [ ] `NEXTAUTH_URL` (your Vercel URL)
   - [ ] `AUTH_URL` (same as NEXTAUTH_URL)
 
-- [ ] **Database Migrations:**
+- [ ] **Database Schema Setup:**
   ```bash
-  # Run migrations on production database
-  npx prisma migrate deploy
+  # Set up database schema on production database
+  npm run supabase:setup
   ```
 
 - [ ] **Database Seeded:**
@@ -109,11 +105,11 @@ See `env.production.example` for the complete list of required environment varia
 
 ## 🐛 Troubleshooting Production Build
 
-### Build Fails: "Prisma Client not generated"
+### Build Fails: "Module not found"
 
-**Solution:** The `postinstall` script should handle this automatically. If it fails:
+**Solution:** Ensure all dependencies are installed:
 ```bash
-npx prisma generate
+npm install
 ```
 
 ### Build Fails: "DATABASE_URL not found"

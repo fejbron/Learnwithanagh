@@ -1,6 +1,6 @@
 # Learn With Ana Gh - Admin Platform
 
-A comprehensive admin platform for managing the "Learn With Ana Gh" kids' store. Built with Next.js 14+, TypeScript, Prisma, and SQLite.
+A comprehensive admin platform for managing the "Learn With Ana Gh" kids' store. Built with Next.js 14+, TypeScript, and Supabase (PostgreSQL).
 
 ## Features
 
@@ -14,7 +14,7 @@ A comprehensive admin platform for managing the "Learn With Ana Gh" kids' store.
 
 - **Framework**: Next.js 14+ (App Router)
 - **Language**: TypeScript
-- **Database**: PostgreSQL with Prisma ORM
+- **Database**: Supabase (PostgreSQL) with direct SQL queries
 - **Authentication**: NextAuth.js v5
 - **UI**: Tailwind CSS + shadcn/ui components
 - **Charts**: Recharts
@@ -34,18 +34,21 @@ A comprehensive admin platform for managing the "Learn With Ana Gh" kids' store.
 npm install
 ```
 
-2. Set up PostgreSQL database:
-   - Create a PostgreSQL database named `learnwithanagh` (or your preferred name)
-   - Update the `DATABASE_URL` in `.env` file with your PostgreSQL connection string:
+2. Set up Supabase database:
+   - Create a Supabase project at [supabase.com](https://supabase.com)
+   - Get your database connection string from Supabase Dashboard > Settings > Database
+   - Update the `DATABASE_URL` or `SUPABASE_DATABASE_URL` in `.env` file:
    ```
-   DATABASE_URL="postgresql://username:password@localhost:5432/learnwithanagh?schema=public"
+   DATABASE_URL="postgresql://postgres:[PASSWORD]@[HOST]:5432/postgres?sslmode=require"
    ```
-   Replace `username`, `password`, `localhost`, `5432`, and `learnwithanagh` with your actual PostgreSQL credentials.
+   - Or use the Supabase connection pooler URL for better performance
 
-3. Run database migrations:
-```bash
-npx prisma migrate dev
-```
+3. Set up database schema:
+   - Run the Supabase setup script to create tables:
+   ```bash
+   npm run supabase:setup
+   ```
+   - Or manually run the SQL migrations from `scripts/setup-supabase-schema.ts`
 
 4. Seed the database with an admin user:
 ```bash
@@ -81,10 +84,10 @@ npm run dev
 │   └── ui/               # shadcn/ui components
 ├── lib/
 │   ├── auth.ts           # NextAuth configuration
-│   └── prisma.ts         # Prisma client instance
-├── prisma/
-│   ├── schema.prisma     # Database schema
-│   └── seed.ts           # Database seed script
+│   └── db.ts             # Database connection and query helpers
+├── scripts/
+│   ├── seed.ts           # Database seed script
+│   └── setup-supabase-schema.ts  # Database schema setup
 └── public/
     └── uploads/          # Product image uploads
 ```
@@ -102,7 +105,9 @@ npm run dev
 Create a `.env` file in the root directory:
 
 ```env
-DATABASE_URL="file:./dev.db"
+DATABASE_URL="postgresql://postgres:[PASSWORD]@[HOST]:5432/postgres?sslmode=require"
+# OR
+SUPABASE_DATABASE_URL="postgresql://postgres:[PASSWORD]@[HOST]:5432/postgres?sslmode=require"
 NEXTAUTH_SECRET="your-secret-key-change-in-production"
 NEXTAUTH_URL="http://localhost:3000"
 ```
@@ -143,7 +148,7 @@ NEXTAUTH_URL="http://localhost:3000"
 - Password hashing with bcrypt
 - Protected API routes with session validation
 - File upload validation (when implemented)
-- SQL injection prevention (Prisma handles this)
+- SQL injection prevention (parameterized queries)
 - XSS prevention (React escapes by default)
 
 ## Future Enhancements
