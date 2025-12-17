@@ -296,7 +296,7 @@ export default function NewOrderPage() {
                 </div>
                 <Button
                   type="button"
-                  onClick={addProductToOrder}
+                  onClick={() => addProductToOrder()}
                   disabled={!selectedProductId || loading}
                 >
                   <Plus className="h-4 w-4 mr-2" />

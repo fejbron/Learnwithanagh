@@ -1,9 +1,63 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  // Production optimizations
+  compress: true,
+  poweredByHeader: false,
+  
   images: {
-    domains: ['localhost'],
-    // Add your Vercel deployment domain here after deployment
-    // Example: remotePatterns: [{ protocol: 'https', hostname: 'your-app.vercel.app' }]
+    // Allow images from localhost (dev) and Vercel domains
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: '**.vercel.app',
+      },
+      {
+        protocol: 'https',
+        hostname: '**.vercel.com',
+      },
+      {
+        protocol: 'http',
+        hostname: 'localhost',
+        port: '3000',
+      },
+    ],
+    // Optimize images in production
+    formats: ['image/avif', 'image/webp'],
+  },
+
+  // Security headers
+  async headers() {
+    return [
+      {
+        source: '/:path*',
+        headers: [
+          {
+            key: 'X-DNS-Prefetch-Control',
+            value: 'on'
+          },
+          {
+            key: 'Strict-Transport-Security',
+            value: 'max-age=63072000; includeSubDomains; preload'
+          },
+          {
+            key: 'X-Frame-Options',
+            value: 'SAMEORIGIN'
+          },
+          {
+            key: 'X-Content-Type-Options',
+            value: 'nosniff'
+          },
+          {
+            key: 'X-XSS-Protection',
+            value: '1; mode=block'
+          },
+          {
+            key: 'Referrer-Policy',
+            value: 'origin-when-cross-origin'
+          },
+        ],
+      },
+    ];
   },
 }
 

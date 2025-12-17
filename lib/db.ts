@@ -5,13 +5,24 @@ import { Pool } from 'pg';
 // Format: postgresql://postgres:[PASSWORD]@[HOST]:5432/postgres
 const databaseUrl = process.env.DATABASE_URL || process.env.SUPABASE_DATABASE_URL;
 
+// In production, DATABASE_URL must be set
+if (!databaseUrl && process.env.NODE_ENV === 'production') {
+  throw new Error(
+    'DATABASE_URL or SUPABASE_DATABASE_URL environment variable is required in production'
+  );
+}
+
 // Parse connection string or use direct config
 let poolConfig: any;
 
 if (databaseUrl && (databaseUrl.startsWith('postgresql://') || databaseUrl.startsWith('postgres://'))) {
   // Use connection string (Supabase format)
   // Supabase requires SSL, detect by checking for supabase.co or supabase.com in the URL
-  const requiresSSL = databaseUrl.includes('supabase.co') || databaseUrl.includes('supabase.com') || databaseUrl.includes('supabase');
+  const requiresSSL = databaseUrl.includes('supabase.co') || 
+                      databaseUrl.includes('supabase.com') || 
+                      databaseUrl.includes('supabase') ||
+                      process.env.NODE_ENV === 'production';
+  
   poolConfig = {
     connectionString: databaseUrl,
     max: 20,
@@ -19,18 +30,20 @@ if (databaseUrl && (databaseUrl.startsWith('postgresql://') || databaseUrl.start
     connectionTimeoutMillis: 2000,
     ssl: requiresSSL ? { rejectUnauthorized: false } : false,
   };
-} else {
-  // Fallback to direct config (for local development)
+} else if (process.env.NODE_ENV === 'development') {
+  // Only allow localhost fallback in development
   poolConfig = {
-    host: 'localhost',
-    port: 5432,
-    database: 'learnwithanagh',
-    user: 'postgres',
-    password: '14norbde',
+    host: process.env.DB_HOST || 'localhost',
+    port: parseInt(process.env.DB_PORT || '5432'),
+    database: process.env.DB_NAME || 'learnwithanagh',
+    user: process.env.DB_USER || 'postgres',
+    password: process.env.DB_PASSWORD,
     max: 20,
     idleTimeoutMillis: 30000,
     connectionTimeoutMillis: 2000,
   };
+} else {
+  throw new Error('Database configuration is missing. Set DATABASE_URL environment variable.');
 }
 
 // Create a connection pool
@@ -38,16 +51,19 @@ let pool: Pool;
 try {
   pool = new Pool(poolConfig);
   
-  // Test the connection
+  // Test the connection (only log in development)
   pool.on('connect', () => {
-    console.log('Connected to PostgreSQL database');
+    if (process.env.NODE_ENV === 'development') {
+      console.log('Connected to PostgreSQL database');
+    }
   });
 
   pool.on('error', (err) => {
-    console.error('Unexpected error on idle client', err);
-    // Don't exit in production, just log the error
+    // Always log errors, but don't expose details in production
     if (process.env.NODE_ENV === 'development') {
-      console.error('Database connection error:', err);
+      console.error('Unexpected error on idle client', err);
+    } else {
+      console.error('Database connection error occurred');
     }
   });
 } catch (error) {
@@ -63,10 +79,22 @@ export async function query(text: string, params?: any[]) {
   try {
     const res = await pool.query(text, params);
     const duration = Date.now() - start;
-    console.log('Executed query', { text, duration, rows: res.rowCount });
+    // Only log slow queries in production, or all queries in development
+    if (process.env.NODE_ENV === 'development' || duration > 1000) {
+      console.log('Executed query', { 
+        duration, 
+        rows: res.rowCount,
+        ...(process.env.NODE_ENV === 'development' && { text })
+      });
+    }
     return res;
   } catch (error) {
-    console.error('Query error', { text, error });
+    // Log error details in development, generic message in production
+    if (process.env.NODE_ENV === 'development') {
+      console.error('Query error', { text, error });
+    } else {
+      console.error('Database query failed');
+    }
     throw error;
   }
 }

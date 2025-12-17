@@ -5,10 +5,12 @@
   "scripts": {
     "dev": "next dev",
     "build": "prisma generate && next build",
+    "build:production": "NODE_ENV=production prisma generate && next build",
     "start": "next start",
     "lint": "next lint",
     "postinstall": "prisma generate",
     "db:seed": "tsx prisma/seed.ts",
+    "db:migrate:deploy": "prisma migrate deploy",
     "supabase:setup": "tsx scripts/setup-supabase-schema.ts",
     "migrate:supabase": "tsx scripts/migrate-to-supabase.ts"
   },
