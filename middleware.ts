@@ -13,6 +13,14 @@ export async function middleware(request: NextRequest) {
       secret: secret,
     });
 
+    if (process.env.NODE_ENV === 'development') {
+      console.log('Middleware - Token check:', { 
+        hasToken: !!token, 
+        path: request.nextUrl.pathname,
+        tokenId: token?.id 
+      });
+    }
+
     if (!token) {
       const loginUrl = new URL("/login", request.url);
       // Add redirect parameter so user can return after login

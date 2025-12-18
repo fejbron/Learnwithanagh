@@ -50,6 +50,8 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         sameSite: 'lax',
         path: '/',
         secure: process.env.NODE_ENV === 'production',
+        // Ensure cookie is available immediately
+        maxAge: 30 * 24 * 60 * 60, // 30 days
       },
     },
   },

@@ -1,7 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { signIn } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -13,6 +14,8 @@ export default function LoginPage() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const router = useRouter();
+  const { data: session } = useSession();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -61,11 +64,13 @@ export default function LoginPage() {
           }
         }
         
-        // Wait a bit longer to ensure the session cookie is set and available
-        // Then do a full page reload to ensure middleware can read the session
+        console.log('Login successful, redirecting to:', targetUrl);
+        
+        // Simple redirect - the session cookie should be set by NextAuth
+        // Use a small delay to ensure cookie is written
         setTimeout(() => {
           window.location.href = targetUrl;
-        }, 300);
+        }, 200);
       } else {
         setError("Login failed. Please try again.");
         setLoading(false);
