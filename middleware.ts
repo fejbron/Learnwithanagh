@@ -1,26 +1,29 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
-import { auth } from "@/lib/auth";
+import { getToken } from "next-auth/jwt";
 
 export async function middleware(request: NextRequest) {
+  // Get the secret from environment variable
+  // Middleware runs in Edge runtime, so we need to use getToken instead of auth()
+  const secret = process.env.NEXTAUTH_SECRET || process.env.AUTH_SECRET || 'fallback-secret-change-in-production';
+  
   try {
-    // Use the auth() helper from NextAuth v5 instead of getToken
-    const session = await auth();
+    const token = await getToken({ 
+      req: request,
+      secret: secret,
+    });
 
-    console.log("Middleware - checking session for:", request.nextUrl.pathname);
-    console.log("Middleware - session exists:", !!session);
-    
-    if (!session) {
-      console.log("Middleware - no session, redirecting to login");
+    if (!token) {
       const loginUrl = new URL("/login", request.url);
+      // Add redirect parameter so user can return after login
       loginUrl.searchParams.set("callbackUrl", request.url);
       return NextResponse.redirect(loginUrl);
     }
 
-    console.log("Middleware - session valid, allowing access");
     return NextResponse.next();
   } catch (error) {
     console.error("Middleware error:", error);
+    // On error, redirect to login
     const loginUrl = new URL("/login", request.url);
     return NextResponse.redirect(loginUrl);
   }
