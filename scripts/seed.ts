@@ -1,5 +1,5 @@
 import 'dotenv/config';
-import { query } from '../lib/db';
+import { query } from '../lib/supabase';
 import bcrypt from 'bcryptjs';
 import { generateId } from '../lib/id';
 

@@ -14,10 +14,12 @@ A comprehensive admin platform for managing the "Learn With Ana Gh" kids' store.
 
 - **Framework**: Next.js 14+ (App Router)
 - **Language**: TypeScript
-- **Database**: Supabase (PostgreSQL) with direct SQL queries
+- **Database**: Supabase (PostgreSQL) - Explicit Supabase integration
+- **Database Client**: Supabase JS Client + Direct PostgreSQL queries for complex operations
 - **Authentication**: NextAuth.js v5
 - **UI**: Tailwind CSS + shadcn/ui components
 - **Charts**: Recharts
+- **Deployment**: Vercel (recommended)
 
 ## Getting Started
 
@@ -36,12 +38,10 @@ npm install
 
 2. Set up Supabase database:
    - Create a Supabase project at [supabase.com](https://supabase.com)
-   - Get your database connection string from Supabase Dashboard > Settings > Database
-   - Update the `DATABASE_URL` or `SUPABASE_DATABASE_URL` in `.env` file:
-   ```
-   DATABASE_URL="postgresql://postgres:[PASSWORD]@[HOST]:5432/postgres?sslmode=require"
-   ```
-   - Or use the Supabase connection pooler URL for better performance
+   - Get your credentials from Supabase Dashboard:
+     - **Settings** > **API**: Project URL, anon key, service_role key
+     - **Settings** > **Database**: Connection string (URI mode)
+   - Add all credentials to your `.env.local` file (see Environment Variables section)
 
 3. Set up database schema:
    - Run the Supabase setup script to create tables:
@@ -98,19 +98,36 @@ npm run dev
 - `npm run build` - Build for production
 - `npm run start` - Start production server
 - `npm run lint` - Run ESLint
-- `npm run db:seed` - Seed the database
+- `npm run db:seed` - Seed the database with admin user
+- `npm run db:reset-password` - Reset admin password
+- `npm run supabase:setup` - Set up database schema in Supabase
 
 ## Environment Variables
 
-Create a `.env` file in the root directory:
+Create a `.env.local` file in the root directory:
 
 ```env
-DATABASE_URL="postgresql://postgres:[PASSWORD]@[HOST]:5432/postgres?sslmode=require"
-# OR
-SUPABASE_DATABASE_URL="postgresql://postgres:[PASSWORD]@[HOST]:5432/postgres?sslmode=require"
-NEXTAUTH_SECRET="your-secret-key-change-in-production"
-NEXTAUTH_URL="http://localhost:3000"
+# Supabase Configuration (Required)
+NEXT_PUBLIC_SUPABASE_URL=https://xxxxx.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+SUPABASE_SERVICE_ROLE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+SUPABASE_DATABASE_URL=postgresql://postgres:[PASSWORD]@[HOST]:5432/postgres?sslmode=require
+
+# NextAuth Configuration (Required)
+NEXTAUTH_SECRET=your-secret-key-change-in-production
+NEXTAUTH_URL=http://localhost:3000
+AUTH_URL=http://localhost:3000
 ```
+
+### Getting Supabase Credentials
+
+1. Go to your Supabase project dashboard
+2. **Settings** > **API**:
+   - Copy `Project URL` → `NEXT_PUBLIC_SUPABASE_URL`
+   - Copy `anon/public` key → `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+   - Copy `service_role` key → `SUPABASE_SERVICE_ROLE_KEY` (keep secret!)
+3. **Settings** > **Database**:
+   - Copy connection string (URI mode) → `SUPABASE_DATABASE_URL`
 
 ## Features Overview
 

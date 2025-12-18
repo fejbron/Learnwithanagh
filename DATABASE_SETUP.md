@@ -1,8 +1,8 @@
 # Supabase Database Setup
 
-## Quick Setup Guide
+This application uses **Supabase** as the primary database. Supabase provides a hosted PostgreSQL database with additional features.
 
-### Recommended: Supabase (Cloud PostgreSQL)
+## Quick Setup Guide
 
 1. **Create Supabase Project**:
    - Go to [supabase.com](https://supabase.com)
@@ -15,64 +15,47 @@
    - Select "URI" mode
    - Copy the connection string (it includes your password)
 
-3. **Update .env file**:
-   ```env
-   DATABASE_URL="postgresql://postgres:[YOUR-PASSWORD]@[YOUR-HOST]:5432/postgres?sslmode=require"
-   # OR use the Supabase-specific variable:
-   SUPABASE_DATABASE_URL="postgresql://postgres:[YOUR-PASSWORD]@[YOUR-HOST]:5432/postgres?sslmode=require"
-   ```
-   Replace `[YOUR-PASSWORD]` and `[YOUR-HOST]` with values from Supabase.
+3. **Get Supabase Credentials**:
+   - Go to **Settings** > **API**
+     - Copy `Project URL` → `NEXT_PUBLIC_SUPABASE_URL`
+     - Copy `anon/public` key → `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+     - Copy `service_role` key → `SUPABASE_SERVICE_ROLE_KEY` (keep secret!)
+   - Go to **Settings** > **Database**
+     - Copy connection string (URI mode) → `SUPABASE_DATABASE_URL`
 
-4. **Set Up Database Schema**:
+4. **Update .env.local file**:
+   ```env
+   NEXT_PUBLIC_SUPABASE_URL=https://xxxxx.supabase.co
+   NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+   SUPABASE_SERVICE_ROLE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+   SUPABASE_DATABASE_URL=postgresql://postgres:[YOUR-PASSWORD]@[YOUR-HOST]:5432/postgres?sslmode=require
+   ```
+
+5. **Set Up Database Schema**:
    ```bash
    npm run supabase:setup
    ```
    This will create all necessary tables in your Supabase database.
 
-5. **Seed Database**:
+6. **Seed Database**:
    ```bash
    npm run db:seed
    ```
    This creates the default admin user.
 
-### Alternative: Local PostgreSQL
+## Architecture
 
-1. **Install PostgreSQL** (if not already installed):
-   - macOS: `brew install postgresql@14` or download from [postgresql.org](https://www.postgresql.org/download/)
-   - Start PostgreSQL service: `brew services start postgresql@14`
+This application uses a hybrid approach:
 
-2. **Create Database**:
-   ```bash
-   createdb learnwithanagh
-   ```
+1. **Supabase Client**: For simple CRUD operations and real-time features
+2. **Direct PostgreSQL Queries**: For complex queries (joins, aggregations) via connection string
 
-3. **Update .env file**:
-   ```env
-   DATABASE_URL="postgresql://your_username:your_password@localhost:5432/learnwithanagh?schema=public"
-   ```
-
-4. **Set Up Schema** (run SQL from `scripts/setup-supabase-schema.ts` manually)
-
-5. **Seed Database**:
-   ```bash
-   npm run db:seed
-   ```
-
-## Connection String Format
-
-```
-postgresql://[user]:[password]@[host]:[port]/[database]?schema=public
-```
-
-Example:
-```
-postgresql://postgres:mypassword@localhost:5432/learnwithanagh?schema=public
-```
+Both methods connect to the same Supabase PostgreSQL database.
 
 ## Troubleshooting
 
-- **Authentication failed**: Check your username and password in the connection string
-- **Database does not exist**: Create the database first using `createdb learnwithanagh`
-- **Connection refused**: Ensure PostgreSQL is running and the port (default 5432) is correct
-- **SSL required**: Add `?sslmode=require` to your connection string for remote databases
+- **Authentication failed**: Check your Supabase credentials in `.env.local`
+- **Connection refused**: Verify your Supabase project is active
+- **SSL required**: Supabase requires SSL - ensure `?sslmode=require` is in your connection string
+- **Missing environment variables**: Ensure all required Supabase variables are set (see Step 3)
 

@@ -1,9 +1,6 @@
-import { Pool } from 'pg';
-
-// Get database connection string from environment variable
-// For Supabase: Use the connection string from Supabase dashboard
-// Format: postgresql://postgres:[PASSWORD]@[HOST]:5432/postgres
-const databaseUrl = process.env.DATABASE_URL || process.env.SUPABASE_DATABASE_URL;
+// This file is deprecated - use lib/supabase.ts instead
+// Kept for backward compatibility during migration
+export * from './supabase';
 
 // In production, DATABASE_URL must be set
 if (!databaseUrl && process.env.NODE_ENV === 'production') {

@@ -1,6 +1,6 @@
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
-import { query } from "./db";
+import { query } from "./supabase";
 import bcrypt from "bcryptjs";
 
 // Ensure NEXTAUTH_SECRET is set

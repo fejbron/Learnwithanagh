@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { auth } from "@/lib/auth";
-import { query, getClient } from "@/lib/db";
+import { query, getClient } from "@/lib/supabase";
 import { generateId } from "@/lib/id";
 
 export const dynamic = 'force-dynamic';

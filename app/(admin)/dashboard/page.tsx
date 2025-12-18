@@ -1,5 +1,5 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { query } from "@/lib/db";
+import { query } from "@/lib/supabase";
 import { formatCurrency } from "@/lib/currency";
 import { DollarSign, Package, ShoppingCart, TrendingUp, Warehouse } from "lucide-react";
 
