@@ -1,37 +1,26 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
-import { getToken } from "next-auth/jwt";
+import { auth } from "@/lib/auth";
 
 export async function middleware(request: NextRequest) {
-  // Get the secret from environment variable
-  // Next.js middleware has access to process.env, but we need to ensure it's set
-  const secret = process.env.NEXTAUTH_SECRET || process.env.AUTH_SECRET || 'fallback-secret-change-in-production';
-  
   try {
-    const token = await getToken({ 
-      req: request,
-      secret: secret,
-    });
+    // Use the auth() helper from NextAuth v5 instead of getToken
+    const session = await auth();
 
-    if (process.env.NODE_ENV === 'development') {
-      console.log('Middleware - Token check:', { 
-        hasToken: !!token, 
-        path: request.nextUrl.pathname,
-        tokenId: token?.id 
-      });
-    }
-
-    if (!token) {
+    console.log("Middleware - checking session for:", request.nextUrl.pathname);
+    console.log("Middleware - session exists:", !!session);
+    
+    if (!session) {
+      console.log("Middleware - no session, redirecting to login");
       const loginUrl = new URL("/login", request.url);
-      // Add redirect parameter so user can return after login
       loginUrl.searchParams.set("callbackUrl", request.url);
       return NextResponse.redirect(loginUrl);
     }
 
+    console.log("Middleware - session valid, allowing access");
     return NextResponse.next();
   } catch (error) {
     console.error("Middleware error:", error);
-    // On error, redirect to login
     const loginUrl = new URL("/login", request.url);
     return NextResponse.redirect(loginUrl);
   }
