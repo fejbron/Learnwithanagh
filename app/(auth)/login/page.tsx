@@ -20,10 +20,15 @@ export default function LoginPage() {
     setLoading(true);
 
     try {
+      // Get callbackUrl from URL search params
+      const urlParams = new URLSearchParams(window.location.search);
+      const callbackUrl = urlParams.get("callbackUrl") || "/dashboard";
+      
       const result = await signIn("credentials", {
         email,
         password,
         redirect: false,
+        callbackUrl: callbackUrl,
       });
 
       console.log("SignIn result:", result);
@@ -36,8 +41,31 @@ export default function LoginPage() {
 
       // If ok is true, authentication succeeded
       if (result?.ok) {
-        // Force a full page reload to ensure cookies are set and read
-        window.location.href = "/dashboard";
+        // Decode the callback URL if it's encoded
+        let targetUrl = callbackUrl;
+        try {
+          targetUrl = decodeURIComponent(callbackUrl);
+        } catch {
+          // If decoding fails, use the original
+          targetUrl = callbackUrl;
+        }
+        
+        // Extract path from full URL if needed (handle both relative and absolute URLs)
+        try {
+          const url = new URL(targetUrl, window.location.origin);
+          targetUrl = url.pathname + url.search;
+        } catch {
+          // If it's already a relative path, use it as is
+          if (!targetUrl.startsWith('/')) {
+            targetUrl = '/dashboard';
+          }
+        }
+        
+        // Wait a bit longer to ensure the session cookie is set and available
+        // Then do a full page reload to ensure middleware can read the session
+        setTimeout(() => {
+          window.location.href = targetUrl;
+        }, 300);
       } else {
         setError("Login failed. Please try again.");
         setLoading(false);

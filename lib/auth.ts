@@ -54,6 +54,17 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     },
   },
   basePath: "/api/auth",
+  cookies: {
+    sessionToken: {
+      name: `${process.env.NODE_ENV === 'production' ? '__Secure-' : ''}next-auth.session-token`,
+      options: {
+        httpOnly: true,
+        sameSite: 'lax',
+        path: '/',
+        secure: process.env.NODE_ENV === 'production',
+      },
+    },
+  },
   providers: [
     CredentialsProvider({
       name: "Credentials",
@@ -80,9 +91,25 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 
           const user = result.rows[0];
 
+          // Check if password field exists and is valid
+          if (!user.password) {
+            console.log("User password is missing or null for:", credentials.email);
+            return null;
+          }
+
+          // Ensure password is a string
+          const storedPassword = String(user.password);
+          
+          // Check if stored password looks like a bcrypt hash (starts with $2a$, $2b$, or $2y$)
+          if (!storedPassword.match(/^\$2[aby]\$/)) {
+            console.log("Stored password is not a valid bcrypt hash for:", credentials.email);
+            console.log("Password field type:", typeof user.password);
+            return null;
+          }
+
           const isPasswordValid = await bcrypt.compare(
             credentials.password as string,
-            user.password
+            storedPassword
           );
 
           if (!isPasswordValid) {

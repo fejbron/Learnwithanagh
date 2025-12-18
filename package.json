@@ -9,6 +9,7 @@
     "start": "next start",
     "lint": "next lint",
     "db:seed": "tsx scripts/seed.ts",
+    "db:reset-password": "tsx scripts/reset-admin-password.ts",
     "supabase:setup": "tsx scripts/setup-supabase-schema.ts",
     "migrate:supabase": "tsx scripts/migrate-to-supabase.ts"
   },
