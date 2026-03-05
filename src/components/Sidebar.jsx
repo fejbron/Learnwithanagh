@@ -20,7 +20,7 @@ export default function Sidebar({ open, onClose }) {
                 {/* Brand */}
                 <div className={styles.brand}>
                     <div className={styles.brandLogo}>🧸</div>
-                    <span className={styles.brandName}>ToyBox</span>
+                    <span className={styles.brandName}>LearnwithAna GH</span>
                 </div>
 
                 {/* Menu section */}
@@ -55,14 +55,6 @@ export default function Sidebar({ open, onClose }) {
                         </NavLink>
                     ))}
                 </nav>
-
-                {/* Download promo card */}
-                <div className={styles.promo}>
-                    <div className={styles.promoIcon}>📲</div>
-                    <p><strong>Download</strong> our Mobile App</p>
-                    <p className={styles.promoSub}>Get easy in another way.</p>
-                    <button className={styles.promoBtn}>Download</button>
-                </div>
             </aside>
         </>
     );

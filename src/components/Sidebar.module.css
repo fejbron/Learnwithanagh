@@ -44,9 +44,12 @@
 }
 
 .brandName {
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 800;
     color: var(--accent);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 /* Section labels */
@@ -105,53 +108,6 @@
     font-size: 16px;
     width: 20px;
     text-align: center;
-}
-
-.navLabel {}
-
-/* Promo card */
-.promo {
-    margin-top: auto;
-    padding-top: 20px;
-    background: var(--accent);
-    border-radius: var(--radius-lg);
-    padding: 20px 16px;
-    color: #fff;
-    text-align: center;
-}
-
-.promoIcon {
-    font-size: 28px;
-    margin-bottom: 8px;
-}
-
-.promo p {
-    font-size: 13px;
-    line-height: 1.4;
-    margin-bottom: 4px;
-}
-
-.promoSub {
-    font-size: 11px;
-    opacity: 0.7;
-    margin-bottom: 14px !important;
-}
-
-.promoBtn {
-    width: 100%;
-    padding: 8px 0;
-    border-radius: var(--radius-sm);
-    background: rgba(255, 255, 255, 0.2);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    color: #fff;
-    font-size: 13px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: var(--transition);
-}
-
-.promoBtn:hover {
-    background: rgba(255, 255, 255, 0.35);
 }
 
 @media (max-width: 900px) {
