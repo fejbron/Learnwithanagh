@@ -1,0 +1,117 @@
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 16px;
+}
+
+.empty {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 80px;
+    color: var(--text-muted);
+    font-style: italic;
+    background: var(--bg-card);
+    border-radius: var(--radius-lg);
+    border: 1px dashed var(--border-color);
+}
+
+.card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-lg);
+    padding: 20px;
+    transition: var(--transition);
+    box-shadow: var(--shadow-sm);
+}
+
+.card:hover {
+    transform: translateY(-3px);
+    border-color: var(--accent-light);
+    box-shadow: var(--shadow-card);
+}
+
+.emoji {
+    font-size: 38px;
+    margin-bottom: 10px;
+    display: block;
+}
+
+.catBadge {
+    display: inline-flex;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .8px;
+    margin-bottom: 10px;
+}
+
+.catToys {
+    background: #ede9fe;
+    color: #7c3aed;
+}
+
+.catBooks {
+    background: #dbeafe;
+    color: #1d4ed8;
+}
+
+.catOther {
+    background: var(--orange-bg);
+    color: var(--orange);
+}
+
+.name {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 6px;
+}
+
+.price {
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--accent);
+    margin-bottom: 10px;
+}
+
+.meta {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-bottom: 6px;
+}
+
+.margin {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-bottom: 14px;
+}
+
+.actions {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.delBtn {
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border-color);
+    background: var(--bg-primary);
+    cursor: pointer;
+    font-size: 15px;
+    transition: var(--transition);
+    flex-shrink: 0;
+}
+
+.delBtn:hover {
+    background: var(--red-bg);
+    border-color: #fca5a5;
+}

@@ -1,0 +1,169 @@
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: var(--sidebar-width);
+    height: 100vh;
+    background: var(--bg-sidebar);
+    border-right: 1px solid var(--border-color);
+    display: flex;
+    flex-direction: column;
+    padding: 24px 16px 20px;
+    z-index: 100;
+    transition: transform 0.3s ease;
+    overflow-y: auto;
+}
+
+.overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.3);
+    z-index: 99;
+}
+
+/* Brand */
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 0 6px 24px;
+    border-bottom: 1px solid var(--border-color);
+    margin-bottom: 20px;
+}
+
+.brandLogo {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: var(--accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+}
+
+.brandName {
+    font-size: 18px;
+    font-weight: 800;
+    color: var(--accent);
+}
+
+/* Section labels */
+.sectionLabel {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.2px;
+    color: var(--text-muted);
+    padding: 0 10px;
+    margin-bottom: 6px;
+}
+
+/* Nav */
+.nav {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.navItem {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    border-radius: var(--radius-md);
+    color: var(--text-label);
+    font-size: 14px;
+    font-weight: 500;
+    transition: var(--transition);
+    position: relative;
+}
+
+.navItem:hover {
+    background: var(--bg-primary);
+    color: var(--text-primary);
+}
+
+.navItem.active {
+    background: var(--accent-pale);
+    color: var(--accent);
+    font-weight: 700;
+}
+
+.navItem.active::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 20%;
+    bottom: 20%;
+    width: 3px;
+    border-radius: 0 3px 3px 0;
+    background: var(--accent);
+}
+
+.navIcon {
+    font-size: 16px;
+    width: 20px;
+    text-align: center;
+}
+
+.navLabel {}
+
+/* Promo card */
+.promo {
+    margin-top: auto;
+    padding-top: 20px;
+    background: var(--accent);
+    border-radius: var(--radius-lg);
+    padding: 20px 16px;
+    color: #fff;
+    text-align: center;
+}
+
+.promoIcon {
+    font-size: 28px;
+    margin-bottom: 8px;
+}
+
+.promo p {
+    font-size: 13px;
+    line-height: 1.4;
+    margin-bottom: 4px;
+}
+
+.promoSub {
+    font-size: 11px;
+    opacity: 0.7;
+    margin-bottom: 14px !important;
+}
+
+.promoBtn {
+    width: 100%;
+    padding: 8px 0;
+    border-radius: var(--radius-sm);
+    background: rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: #fff;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.promoBtn:hover {
+    background: rgba(255, 255, 255, 0.35);
+}
+
+@media (max-width: 900px) {
+    .sidebar {
+        transform: translateX(-240px);
+    }
+
+    .sidebar.open {
+        transform: translateX(0);
+    }
+
+    .overlay {
+        display: block;
+    }
+}

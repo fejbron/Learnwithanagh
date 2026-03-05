@@ -1,0 +1,261 @@
+.statsGrid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+/* Stat cards — first one is accent hero (dark green) */
+.statCard {
+    background: var(--bg-card);
+    border-radius: var(--radius-lg);
+    padding: 20px 22px;
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow-sm);
+    transition: var(--transition);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.statCard:hover {
+    box-shadow: var(--shadow-card);
+    transform: translateY(-2px);
+}
+
+.statCard.hero {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+}
+
+.statTopRow {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.statLabel {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-label);
+}
+
+.statCard.hero .statLabel {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.statArrow {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    color: var(--text-muted);
+    transition: var(--transition);
+}
+
+.statCard.hero .statArrow {
+    border-color: rgba(255, 255, 255, 0.3);
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.statValue {
+    font-size: 38px;
+    font-weight: 800;
+    line-height: 1;
+    color: var(--text-primary);
+}
+
+.statCard.hero .statValue {
+    color: #fff;
+}
+
+.statChange {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 3px 8px;
+    border-radius: 20px;
+}
+
+.positive {
+    background: var(--green-bg);
+    color: var(--green);
+}
+
+.negative {
+    background: var(--red-bg);
+    color: var(--red);
+}
+
+.neutral {
+    background: var(--border-light);
+    color: var(--text-muted);
+}
+
+.statCard.hero .statChange {
+    background: rgba(255, 255, 255, 0.2);
+    color: rgba(255, 255, 255, 0.95);
+}
+
+/* Charts grid */
+.chartsGrid {
+    display: grid;
+    grid-template-columns: 1.8fr 1fr;
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+.card {
+    background: var(--bg-card);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow-sm);
+    overflow: hidden;
+}
+
+.cardHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 22px 14px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.cardHeader h2 {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.chartWrap {
+    padding: 16px;
+    height: 260px;
+}
+
+.chartWrapDonut {
+    padding: 16px;
+    height: 260px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Table */
+.tableWrap {
+    overflow-x: auto;
+}
+
+table.table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+}
+
+.table th {
+    padding: 11px 20px;
+    text-align: left;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: .8px;
+    background: var(--bg-primary);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.table td {
+    padding: 13px 20px;
+    border-bottom: 1px solid var(--border-light);
+    color: var(--text-secondary);
+}
+
+.table tr:last-child td {
+    border-bottom: none;
+}
+
+.table tr:hover td {
+    background: var(--bg-primary);
+}
+
+.emptyRow {
+    text-align: center !important;
+    padding: 48px !important;
+    color: var(--text-muted);
+    font-style: italic;
+}
+
+/* Badges */
+.badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.badge_toys {
+    background: #ede9fe;
+    color: #7c3aed;
+}
+
+.badge_books {
+    background: #dbeafe;
+    color: #1d4ed8;
+}
+
+.badge_other {
+    background: var(--orange-bg);
+    color: var(--orange);
+}
+
+.badge_completed {
+    background: var(--green-bg);
+    color: var(--green);
+}
+
+.badge_pending {
+    background: var(--orange-bg);
+    color: var(--orange);
+}
+
+.badge_refunded {
+    background: var(--red-bg);
+    color: var(--red);
+}
+
+.linkBtn {
+    font-size: 13px;
+    color: var(--accent-mid);
+    font-weight: 600;
+    transition: var(--transition);
+}
+
+.linkBtn:hover {
+    color: var(--accent);
+}
+
+@media (max-width: 1100px) {
+    .statsGrid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .chartsGrid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 600px) {
+    .statsGrid {
+        grid-template-columns: 1fr;
+    }
+}
