@@ -6,7 +6,7 @@ import styles from './PageShared.module.css';
 const STATUSES = ['Completed', 'Pending', 'Refunded'];
 const CATEGORIES = ['Toys', 'Books', 'Other'];
 
-const fmt = (n) => '$' + Number(n).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+const fmt = (n) => 'GH₵ ' + Number(n).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 
 const empty = { date: '', productName: '', category: 'Toys', qty: 1, unitPrice: '', status: 'Completed' };
 
@@ -129,8 +129,8 @@ export default function Sales() {
                                 <input type="number" min="1" className={styles.input} value={form.qty} onChange={e => setForm(f => ({ ...f, qty: e.target.value }))} required />
                             </div>
                             <div className={styles.formGroup}>
-                                <label className={styles.label}>Unit Price ($)</label>
-                                <input type="number" step="0.01" min="0" className={styles.input} value={form.unitPrice} onChange={e => setForm(f => ({ ...f, unitPrice: e.target.value }))} required />
+                                <span style={{ position: 'absolute', left: 14, top: 11, color: 'var(--text-muted)' }}>GH₵</span>
+                                <input required className={styles.input} style={{ paddingLeft: 50 }} type="number" step="0.01" min="0" value={form.unitPrice} onChange={e => setForm(f => ({ ...f, unitPrice: e.target.value }))} />
                             </div>
                             <div className={styles.formGroup}>
                                 <label className={styles.label}>Status</label>

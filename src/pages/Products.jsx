@@ -9,7 +9,7 @@ const EMOJIS = { Toys: '🧸', Books: '📚', Other: '🎁' };
 
 const empty = { name: '', category: 'Toys', price: '', cost: '', stock: '', emoji: '🧸' };
 
-const fmt = (n) => '$' + Number(n).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+const fmt = (n) => 'GH₵ ' + Number(n).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 
 export default function Products() {
     const { products, addProduct, updateProduct, deleteProduct } = useApp();
@@ -94,12 +94,14 @@ export default function Products() {
                                 <input className={styles.input} value={form.emoji} onChange={e => setForm(f => ({ ...f, emoji: e.target.value }))} placeholder="🧸" maxLength={2} />
                             </div>
                             <div className={styles.formGroup}>
-                                <label className={styles.label}>Selling Price ($)</label>
-                                <input type="number" step="0.01" min="0" className={styles.input} value={form.price} onChange={e => setForm(f => ({ ...f, price: e.target.value }))} required />
+                                <label className={styles.label}>Selling Price</label>
+                                <span style={{ position: 'absolute', left: 14, top: 41, color: 'var(--text-muted)' }}>GH₵</span>
+                                <input required className={styles.input} style={{ paddingLeft: 50 }} type="number" step="0.01" min="0" value={form.price} onChange={e => setForm(f => ({ ...f, price: e.target.value }))} />
                             </div>
                             <div className={styles.formGroup}>
-                                <label className={styles.label}>Cost Price ($)</label>
-                                <input type="number" step="0.01" min="0" className={styles.input} value={form.cost} onChange={e => setForm(f => ({ ...f, cost: e.target.value }))} required />
+                                <label className={styles.label}>Cost Price</label>
+                                <span style={{ position: 'absolute', left: 14, top: 41, color: 'var(--text-muted)' }}>GH₵</span>
+                                <input required className={styles.input} style={{ paddingLeft: 50 }} type="number" step="0.01" min="0" value={form.cost} onChange={e => setForm(f => ({ ...f, cost: e.target.value }))} />
                             </div>
                             <div className={`${styles.formGroup} ${styles.full}`}>
                                 <label className={styles.label}>Stock Quantity</label>

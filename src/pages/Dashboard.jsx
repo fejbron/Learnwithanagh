@@ -11,7 +11,7 @@ import styles from './Dashboard.module.css';
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend, ArcElement);
 
 const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-const fmt = (n) => '$' + Number(n).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+const fmt = (n) => 'GH₵ ' + Number(n).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 
 function categoryBadge(cat) {
     const map = { Toys: 'toys', Books: 'books', Other: 'other' };
@@ -87,7 +87,7 @@ export default function Dashboard() {
         plugins: { legend: { display: false }, tooltip: { callbacks: { label: ctx => fmt(ctx.raw) } } },
         scales: {
             x: { grid: { display: false }, ticks: { color: '#9ca3af', font: { family: 'Outfit', size: 12 } } },
-            y: { grid: { color: '#f3f4f6' }, ticks: { color: '#9ca3af', font: { family: 'Outfit', size: 12 }, callback: v => '$' + v } },
+            y: { grid: { color: '#f3f4f6' }, ticks: { color: '#9ca3af', font: { family: 'Outfit', size: 12 }, callback: v => 'GH₵ ' + v } },
         },
     };
 

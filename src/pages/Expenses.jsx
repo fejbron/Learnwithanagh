@@ -5,7 +5,7 @@ import styles from './PageShared.module.css';
 
 const CATEGORIES = ['Rent', 'Inventory', 'Utilities', 'Marketing', 'Salaries', 'Shipping', 'Other'];
 const empty = { date: '', description: '', category: 'Inventory', amount: '' };
-const fmt = (n) => '$' + Number(n).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+const fmt = (n) => 'GH₵ ' + Number(n).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 
 export default function Expenses() {
     const { expenses, addExpense, updateExpense, deleteExpense } = useApp();
@@ -91,8 +91,8 @@ export default function Expenses() {
                                 <input className={styles.input} value={form.description} onChange={e => setForm(f => ({ ...f, description: e.target.value }))} placeholder="e.g. Monthly stock purchase" required />
                             </div>
                             <div className={`${styles.formGroup} ${styles.full}`}>
-                                <label className={styles.label}>Amount ($)</label>
-                                <input type="number" step="0.01" min="0" className={styles.input} value={form.amount} onChange={e => setForm(f => ({ ...f, amount: e.target.value }))} required />
+                                <span style={{ position: 'absolute', left: 14, top: 11, color: 'var(--text-muted)' }}>GH₵</span>
+                                <input required className={styles.input} style={{ paddingLeft: 50 }} type="number" step="0.01" min="0" value={form.amount} onChange={e => setForm(f => ({ ...f, amount: e.target.value }))} />
                             </div>
                         </div>
                         <div className={styles.formActions}>
